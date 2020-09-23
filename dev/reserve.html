@@ -23,29 +23,29 @@
             </p>
             <hr class="my-4">
             <p>we have a limited number of tables so book NOW!</p>
-            <a class="btn btn-primary btn-lg" href="view.html" role="button">Available tables</a>
-            <a class="btn btn-primary btn-lg" href="home.html" role="button">Home</a>
+            <a class="btn btn-primary btn-lg" href="/tables" role="button">Available tables</a>
+            <a class="btn btn-primary btn-lg" href="/home" role="button">Home</a>
 
 
             <form>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Name</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <input type="text" class="form-control" id="Name" aria-describedby="emailHelp">
 
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Phone Number</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1">
+                    <input type="text" class="form-control" id="Phone">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">email</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1">
+                    <input type="email" class="form-control" id="Email">
                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                         else.</small>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Unique ID </label>
-                    <input type="password" class="form-control" id="exampleInputPassword1">
+                    <input type="text" class="form-control" id="UniqueId">
                 </div>
                 <div class="form-group form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -55,17 +55,45 @@
             </form>
 
         </div>
+
+        <script type="text/javascript">
+            var resTables = {
+                name: $("#Name").val().trim(),
+                role: $("#Phone").val().trim(),
+                age: $("#Email").val().trim(),
+                forcePoints: $("#UniqueId").val().trim()
+            };
+
+
+            $.post("/api/tables/" + tables, function (data) {
+                console.log(data);
+                if (data) {
+                    $("#tableNumber").show();
+                    $("#Name").text(table.name);
+                    $("#Phone").text(table.phone);
+                    $("#Email").text(table.email);
+                    $("#UniqueId").text(table.id);
+                } else {
+                    $("#name").text(
+                        "The force is NOT strong with this one. Your table is fucked go home.");
+                }
+            });
+
+            $.post("/reserve", resTables)
+                .then(function (data) {
+                    console.log("reserve.html", data);
+                });
+        </script>
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous">
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-            crossorigin="anonymous"></script>
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+            </script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-            crossorigin="anonymous"></script>
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+            </script>
 </body>
 
 </html>
